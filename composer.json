@@ -1,0 +1,6 @@
+{
+    "name": "mikhail/architect-solution",
+    "require-dev": {
+        "phpunit/phpunit": "^9"
+    }
+}
