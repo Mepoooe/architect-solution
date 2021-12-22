@@ -1,6 +1,4 @@
 <?php
-require_once 'test/TestCase.php';
-require_once 'main/Math.php';
 
 use main\Math;
 use test\TestCase;
@@ -13,7 +11,7 @@ class MathTest extends TestCase
     public function testOnEmptySolveQuadraticEquation(): void
     {
         $math = new Math();
-
+        
         $mock = $this->getMockForEmptyArray();
         $result = $math->solveQuadraticEquation($mock['a'], $mock['b'], $mock['c']);
 
