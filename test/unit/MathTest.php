@@ -44,10 +44,16 @@ class MathTest extends TestCase
         $math = new Math();
 
         $mock = $this->getMockForOneRoot();
+        $almostOneRootMock = $this->getMockForAlmostOneRoot();
         $result = $math->solveQuadraticEquation($mock['a'], $mock['b'], $mock['c']);
+        $resultWithRoots = $math->solveQuadraticEquation($almostOneRootMock['a'], $almostOneRootMock['b'], $almostOneRootMock['c']);
 
         $this->assertIsArray($result);
         $this->assertEmpty($result); // empty
+
+        $this->assertIsArray($resultWithRoots);
+        $this->assertArrayHasKey('x1', $resultWithRoots);
+        $this->assertArrayHasKey('x2', $resultWithRoots);
     }
 
     /**
@@ -78,25 +84,6 @@ class MathTest extends TestCase
         $math->solveQuadraticEquation($mock['a'], $mock['b'], $mock['c']);
     }
 
-    /**
-     * Написать тест, который проверяет, что для уравнения x^2-1 = 0 есть два корня кратности 1 (x1=1, x2=-1)
-     */
-    public function testOnTwoRootOfMultiplicitySolveQuadraticEquation(): void
-    {
-        $math = new Math();
-
-        $mock = $this->getMockForTwoRootOfMultiplicity();
-
-        $result = $math->solveQuadraticEquation($mock['a'], $mock['b'], $mock['c']);
-
-        $this->assertIsArray($result);
-        $this->assertNotEmpty($result);
-        $this->assertArrayHasKey('x1', $result);
-        $this->assertArrayHasKey('x2', $result);
-//        $this->assertSame(1, $result['x1']);
-//        $this->assertArrayHasKey(-1, $result['x2']);
-    }
-
     private function getMockForEmptyArray(): array
     {
         return [
@@ -120,6 +107,15 @@ class MathTest extends TestCase
         return [
             'a' => 1,
             'b' => 2,
+            'c' => 1,
+        ];
+    }
+
+    private function getMockForAlmostOneRoot(): array
+    {
+        return [
+            'a' => 1,
+            'b' => 2.00000000003,
             'c' => 1,
         ];
     }
