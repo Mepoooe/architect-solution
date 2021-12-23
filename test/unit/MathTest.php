@@ -14,9 +14,40 @@ class MathTest extends TestCase
         
         $mock = $this->getMockForEmptyArray();
         $result = $math->solveQuadraticEquation($mock['a'], $mock['b'], $mock['c']);
-
+        
         $this->assertIsArray($result);
         $this->assertEmpty($result);
+    }
+
+    /**
+     * Написать тест, который проверяет, что для уравнения x^2-1 = 0 есть два корня кратности 1 (x1=1, x2=-1)
+     */
+    public function testOnTwoRootSolveQuadraticEquation(): void
+    {
+        $math = new Math();
+
+        $mock = $this->getMockForTwoRoot();
+        $result = $math->solveQuadraticEquation($mock['a'], $mock['b'], $mock['c']);
+
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('x1', $result);
+        $this->assertArrayHasKey('x2', $result);
+        $this->assertSame(1.0, $result['x1']);
+        $this->assertSame(-1.0, $result['x2']);
+    }
+
+    /**
+     * Написать тест, который проверяет, что для уравнения x^2+2x+1 = 0 есть один корень кратности 2 (x1= x2 = -1).
+     */
+    public function testOnOneRootSolveQuadraticEquation(): void
+    {
+        $math = new Math();
+
+        $mock = $this->getMockForOneRoot();
+        $result = $math->solveQuadraticEquation($mock['a'], $mock['b'], $mock['c']);
+
+        $this->assertIsArray($result);
+        $this->assertEmpty($result); // empty
     }
 
     /**
@@ -48,23 +79,6 @@ class MathTest extends TestCase
     }
 
     /**
-     * Написать тест, который проверяет, что для уравнения x^2+2x+1 = 0 есть один корень кратности 2 (x1= x2 = -1).
-     */
-    public function testOnOneRootSolveQuadraticEquation(): void
-    {
-        $math = new Math();
-
-        $mock = $this->getMockOnOneRoot();
-        $result = $math->solveQuadraticEquation($mock['a'], $mock['b'], $mock['c']);
-
-        $this->assertIsArray($result);
-        $this->assertNotEmpty($result);
-        $this->assertArrayHasKey('x1', $result);
-        $this->assertArrayHasKey('x2', $result);
-//        $this->assertSame($result['x1'], $result['x2']);
-    }
-
-    /**
      * Написать тест, который проверяет, что для уравнения x^2-1 = 0 есть два корня кратности 1 (x1=1, x2=-1)
      */
     public function testOnTwoRootOfMultiplicitySolveQuadraticEquation(): void
@@ -86,8 +100,26 @@ class MathTest extends TestCase
     private function getMockForEmptyArray(): array
     {
         return [
-            'a' => 4,
-            'b' => -3,
+            'a' => 1,
+            'b' => 0,
+            'c' => 1,
+        ];
+    }
+
+    private function getMockForTwoRoot(): array
+    {
+        return [
+            'a' => 1,
+            'b' => 0,
+            'c' => -1,
+        ];
+    }
+
+    private function getMockForOneRoot(): array
+    {
+        return [
+            'a' => 1,
+            'b' => 2,
             'c' => 1,
         ];
     }
