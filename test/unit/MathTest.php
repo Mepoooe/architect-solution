@@ -1,6 +1,6 @@
 <?php
 
-use main\Math;
+use helpers\Math;
 use test\TestCase;
 
 class MathTest extends TestCase

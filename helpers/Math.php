@@ -1,5 +1,5 @@
 <?php
-namespace main;
+namespace helpers;
 
 use \Exception;
 
