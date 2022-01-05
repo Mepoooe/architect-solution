@@ -11,10 +11,10 @@ class MathTest extends TestCase
     public function testOnEmptySolveQuadraticEquation(): void
     {
         $math = new Math();
-        
+
         $mock = $this->getMockForEmptyArray();
         $result = $math->solveQuadraticEquation($mock['a'], $mock['b'], $mock['c']);
-        
+
         $this->assertIsArray($result);
         $this->assertEmpty($result);
     }
@@ -44,16 +44,15 @@ class MathTest extends TestCase
         $math = new Math();
 
         $mock = $this->getMockForOneRoot();
-        $almostOneRootMock = $this->getMockForAlmostOneRoot();
         $result = $math->solveQuadraticEquation($mock['a'], $mock['b'], $mock['c']);
-        $resultWithRoots = $math->solveQuadraticEquation($almostOneRootMock['a'], $almostOneRootMock['b'], $almostOneRootMock['c']);
 
         $this->assertIsArray($result);
-        $this->assertEmpty($result); // empty
+        $this->assertNotEmpty($result);
 
-        $this->assertIsArray($resultWithRoots);
-        $this->assertArrayHasKey('x1', $resultWithRoots);
-        $this->assertArrayHasKey('x2', $resultWithRoots);
+        $this->assertArrayHasKey('x1', $result);
+        $this->assertArrayHasKey('x2', $result);
+        $this->assertSame($result['x1'], $result['x2']);
+        $this->assertSame(-1.0, $result['x1']);
     }
 
     /**
@@ -84,6 +83,24 @@ class MathTest extends TestCase
         $math->solveQuadraticEquation($mock['a'], $mock['b'], $mock['c']);
     }
 
+    /**
+     * С учетом того, что дискриминант тоже нельзя сравнивать с 0 через знак равенства, подобрать такие
+     * коэффициенты квадратного уравнения для случая одного корня кратности два,
+     * чтобы дискриминант был отличный от нуля, но меньше заданного эпсилон.
+     */
+    public function testOnLowEpsilon(): void
+    {
+        $math = new Math();
+
+        $mock = $this->getMockOnLowEpsilon();
+        $result = $math->solveQuadraticEquation($mock['a'], $mock['b'], $mock['c'], false);
+
+        $this->assertIsArray($result);
+        $this->assertNotEmpty($result);
+        $this->assertSame($result['x1'], $result['x2']);
+        $this->assertSame(-1.0, $result['x1']);
+    }
+
     private function getMockForEmptyArray(): array
     {
         return [
@@ -111,19 +128,10 @@ class MathTest extends TestCase
         ];
     }
 
-    private function getMockForAlmostOneRoot(): array
-    {
-        return [
-            'a' => 1,
-            'b' => 2.00000000003,
-            'c' => 1,
-        ];
-    }
-
     private function getMockOnZero(): array
     {
         return [
-            'a' => 0,
+            'a' => 0.0,
             'b' => -3,
             'c' => 1,
         ];
@@ -138,21 +146,15 @@ class MathTest extends TestCase
         ];
     }
 
-    private function getMockOnOneRoot(): array
+    private function getMockOnLowEpsilon(): array
     {
-        return [
-            'a' => 0.81,
-            'b' => 4,
-            'c' => -1,
-        ];
-    }
+        $lowEps = 0.000000000001;
+        $c = 1 - $lowEps;
 
-    private function getMockForTwoRootOfMultiplicity(): array
-    {
         return [
-            'a' => 1,
-            'b' => 10,
-            'c' => 1,
+            'a' => 1.0,
+            'b' => 2.0,
+            'c' => $c,
         ];
     }
 }
