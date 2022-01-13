@@ -19,10 +19,10 @@ class UObject
 
     /**
      * @param string $propertyName
-     * @return Position|Velocity
+     * @return mixed
      * @throws \Exception
      */
-    public function getProperty(string $propertyName): object
+    public function getProperty(string $propertyName)
     {
         if (array_key_exists($propertyName, $this->propertyList)) {
             return $this->propertyList[$propertyName];

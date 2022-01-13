@@ -4,13 +4,13 @@
 namespace main\models\adapters;
 
 
-use main\events\interfaces\Rotable;
+use main\models\interfaces\Rotable;
 use main\models\UObject;
 
 class RotableAdapter implements Rotable
 {
-    protected const ROTABLE_DIRECTION_PROP_NAME = 'rotableDirection';
-    protected const ROTABLE_ANGULAR_VELOCITY_PROP_NAME = 'rotableAngularVelocity';
+    const ROTABLE_DIRECTION_PROP_NAME = 'rotableDirection';
+    const ROTABLE_ANGULAR_VELOCITY_PROP_NAME = 'rotableAngularVelocity';
 
     protected const ROTABLE_MAX_DIRECTION_COUNT = 12;
 
@@ -24,6 +24,10 @@ class RotableAdapter implements Rotable
 
     public function setDirection(int $newDirection)
     {
+        if ($newDirection > self::ROTABLE_MAX_DIRECTION_COUNT) {
+            throw new \Exception("Direction should be less then '{$this->getMaxDirectionsCount()}'.");
+        }
+
         $this->uObject->setProperty(self::ROTABLE_DIRECTION_PROP_NAME, $newDirection);
     }
 
