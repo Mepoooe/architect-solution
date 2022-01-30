@@ -3,12 +3,12 @@
 namespace main\models\commands;
 
 
-use main\models\adapters\CheckFuelAdapter;
+use main\models\exceptions\CommandException;
 use main\models\interfaces\Checkable;
 
 class CheckFuel implements Command
 {
-    private CheckFuelAdapter $checkableAdapter;
+    private Checkable $checkableAdapter;
 
 
     public function __construct(Checkable $checkableAdapter)
@@ -19,5 +19,9 @@ class CheckFuel implements Command
     public function execute(): void
     {
         $this->checkableAdapter->check();
+
+        if ($this->checkableAdapter->isFuelExist() === false) {
+            throw new CommandException('Fuel less than zero');
+        }
     }
 }

@@ -22,13 +22,13 @@ class BurnFuelAdapter implements Consumable
 
     public function consume(): void
     {
-        $fuelVolume = $this->getFuel()->getFuelVolume() - $this->fuelConsumption;
-
-        if ($fuelVolume < 0) {
-            throw new CommandException('Not enough fuel');
-        }
-
+        $fuelVolume = $this->calcFuelVolumeAfterBurn();
         $this->getFuel()->setFuelVolume($fuelVolume);
+    }
+
+    public function calcFuelVolumeAfterBurn(): int
+    {
+        return $this->getFuel()->getFuelVolume() - $this->fuelConsumption;
     }
 
     public function setFuel(Fuel $fuel)

@@ -3,12 +3,12 @@
 namespace main\models\commands;
 
 
-use main\models\adapters\BurnFuelAdapter;
+use main\models\exceptions\CommandException;
 use main\models\interfaces\Consumable;
 
 class BurnFuel implements Command
 {
-    private BurnFuelAdapter $burnFuelAdapter;
+    private Consumable $burnFuelAdapter;
 
 
     public function __construct(Consumable $burnFuelAdapter)
@@ -18,6 +18,10 @@ class BurnFuel implements Command
 
     public function execute(): void
     {
+        $fuelVolume = $this->burnFuelAdapter->calcFuelVolumeAfterBurn();
+        if ($fuelVolume < 0) {
+            throw new CommandException('Not enough fuel');
+        }
         $this->burnFuelAdapter->consume();
     }
 }

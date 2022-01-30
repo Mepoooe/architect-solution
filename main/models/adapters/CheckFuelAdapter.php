@@ -3,8 +3,6 @@
 namespace main\models\adapters;
 
 use main\components\Fuel;
-use main\components\Velocity;
-use main\models\exceptions\CommandException;
 use main\models\interfaces\Checkable;
 
 class CheckFuelAdapter implements Checkable
@@ -23,11 +21,6 @@ class CheckFuelAdapter implements Checkable
     public function check(): bool
     {
         $this->fuelExist = $this->fuel->getFuelVolume() > 0;
-
-        if ($this->fuelExist === false) {
-            throw new CommandException('Fuel less than zero');
-        }
-
         return $this->fuelExist;
     }
 

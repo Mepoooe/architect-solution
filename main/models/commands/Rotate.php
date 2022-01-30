@@ -4,7 +4,7 @@ namespace main\models\commands;
 
 use main\models\interfaces\Rotable;
 
-class Rotate
+class Rotate implements Command
 {
     private Rotable $rotableAdapter;
 
@@ -14,7 +14,7 @@ class Rotate
         $this->rotableAdapter = $rotableAdapter;
     }
 
-    public function execute()
+    public function execute(): void
     {
         $newDirection = abs($this->rotableAdapter->getDirection() + $this->rotableAdapter->getAngularVelocity()) % $this->rotableAdapter->getMaxDirectionsCount();
         $this->rotableAdapter->setDirection($newDirection);
