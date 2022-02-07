@@ -1,8 +1,6 @@
 <?php
 namespace main\models;
 
-use main\components\Position;
-use main\components\Velocity;
 
 class UObject
 {
@@ -10,7 +8,7 @@ class UObject
 
     /**
      * @param string $propertyName
-     * @param Position|Velocity $newValue
+     * @param mixed $newValue
      */
     public function setProperty(string $propertyName, $newValue): void
     {

@@ -17,34 +17,34 @@ class RotateTest extends TestCase
         $directionMock = 3;
 
         $tank = new UObject();
-        $commandRotate = new Rotate();
         $rotateAdapter = new RotableAdapter($tank);
+        $commandRotate = new Rotate($rotateAdapter);
 
         $rotateAdapter->setDirection(12);
         $rotateAdapter->setAngularVelocity(3);
 
-        $commandRotate->execute($rotateAdapter);
+        $commandRotate->execute();
 
         $this->assertSame($directionMock, $rotateAdapter->getDirection());
 
         $rotateAdapter->setDirection(12);
         $rotateAdapter->setAngularVelocity(30);
 
-        $commandRotate->execute($rotateAdapter);
+        $commandRotate->execute();
 
         $this->assertSame(6, $rotateAdapter->getDirection());
 
         $rotateAdapter->setDirection(12);
         $rotateAdapter->setAngularVelocity(-3);
 
-        $commandRotate->execute($rotateAdapter);
+        $commandRotate->execute();
 
         $this->assertSame(9, $rotateAdapter->getDirection());
 
         $rotateAdapter->setDirection(12);
         $rotateAdapter->setAngularVelocity(-30);
 
-        $commandRotate->execute($rotateAdapter);
+        $commandRotate->execute();
 
         $this->assertSame(6, $rotateAdapter->getDirection());
     }
@@ -55,15 +55,15 @@ class RotateTest extends TestCase
     public function testRotateObjectWithoutDirection()
     {
         $tank = new UObject();
-        $commandRotate = new Rotate();
         $rotateAdapter = new RotableAdapter($tank);
+        $commandRotate = new Rotate($rotateAdapter);
         $propName = RotableAdapter::ROTABLE_DIRECTION_PROP_NAME;
 
         $rotateAdapter->setAngularVelocity(3);
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Property '{$propName}' not set!");
-        $commandRotate->execute($rotateAdapter);
+        $commandRotate->execute();
     }
 
     /**
@@ -72,15 +72,15 @@ class RotateTest extends TestCase
     public function testRotateObjectWithoutAngularVelocity()
     {
         $tank = new UObject();
-        $commandRotate = new Rotate();
         $rotateAdapter = new RotableAdapter($tank);
+        $commandRotate = new Rotate($rotateAdapter);
         $propName = RotableAdapter::ROTABLE_ANGULAR_VELOCITY_PROP_NAME;
 
         $rotateAdapter->setDirection(12);
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Property '{$propName}' not set!");
-        $commandRotate->execute($rotateAdapter);
+        $commandRotate->execute();
     }
 
     /**

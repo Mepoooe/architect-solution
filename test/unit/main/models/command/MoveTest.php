@@ -20,13 +20,12 @@ class MoveTest extends TestCase
         $velocityMock = new Velocity(-7, 3);
 
         $tank = new UObject();
-        $commandMove = new Move();
         $movableAdapter = new MovableAdapter($tank);
-
         $movableAdapter->setPosition($positionMock);
         $movableAdapter->setVelocity($velocityMock);
 
-        $commandMove->execute($movableAdapter);
+        $commandMove = new Move($movableAdapter);
+        $commandMove->execute();
 
         $this->assertSame(5, $movableAdapter->getPosition()->getX());
         $this->assertSame(8, $movableAdapter->getPosition()->getY());
@@ -40,15 +39,15 @@ class MoveTest extends TestCase
         $velocityMock = new Velocity(-7, 3);
 
         $tank = new UObject();
-        $commandMove = new Move();
         $movableAdapter = new MovableAdapter($tank);
         $propName = MovableAdapter::MOVABLE_POSITION_PROP_NAME;
-
         $movableAdapter->setVelocity($velocityMock);
+
+        $commandMove = new Move($movableAdapter);
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Property '{$propName}' not set!");
-        $commandMove->execute($movableAdapter);
+        $commandMove->execute();
     }
 
     /**
@@ -59,15 +58,15 @@ class MoveTest extends TestCase
         $positionMock = new Position(12, 5);
 
         $tank = new UObject();
-        $commandMove = new Move();
         $movableAdapter = new MovableAdapter($tank);
         $propName = MovableAdapter::MOVABLE_VELOCITY_PROP_NAME;
-
         $movableAdapter->setPosition($positionMock);
+
+        $commandMove = new Move($movableAdapter);
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Property '{$propName}' not set!");
-        $commandMove->execute($movableAdapter);
+        $commandMove->execute();
     }
 
     /**
@@ -95,14 +94,13 @@ class MoveTest extends TestCase
         $velocityMock = new Velocity(-7, 3);
 
         $tank = new UObject();
-        $commandMove = new Move();
         $movableAdapter = new MovableAdapter($tank);
-
         $movableAdapter->setVelocity($velocityMock);
+
+        $commandMove = new Move($movableAdapter);
 
         $this->expectException(\TypeError::class);
         $position->setX('one');
-
-        $commandMove->execute($movableAdapter);
+        $commandMove->execute();
     }
 }

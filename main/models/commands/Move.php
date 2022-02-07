@@ -5,16 +5,40 @@ namespace main\models\commands;
 
 use main\models\interfaces\Movable;
 
-class Move
+class Move implements Command
 {
-    public function execute(Movable $m )
+    private Movable $movableAdapter;
+
+
+    public function __construct(Movable $movableAdapter)
     {
-        $position = $m->getPosition();
-        $velocity = $m->getVelocity();
+        $this->movableAdapter = $movableAdapter;
+    }
+
+    public function execute(): void
+    {
+        $position = $this->movableAdapter->getPosition();
+        $velocity = $this->movableAdapter->getVelocity();
 
         $position->setX($position->getX() + $velocity->getX());
         $position->setY($position->getY() + $velocity->getY());
 
-        $m->setPosition($position);
+        $this->movableAdapter->setPosition($position);
+    }
+
+    /**
+     * @return Movable
+     */
+    public function getMovableAdapter(): Movable
+    {
+        return $this->movableAdapter;
+    }
+
+    /**
+     * @param Movable $movableAdapter
+     */
+    public function setMovableAdapter(Movable $movableAdapter): void
+    {
+        $this->movableAdapter = $movableAdapter;
     }
 }

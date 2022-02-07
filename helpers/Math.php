@@ -1,4 +1,5 @@
 <?php
+
 namespace helpers;
 
 use \Exception;
@@ -8,7 +9,7 @@ class Math
     /**
      * @var float
      */
-    private const EPSILON = 0.0000000001;
+    const EPSILON = 0.0000000001;
 
     //Уравнение вида ax^2+bx+c=0, в котором a, b и c — действительные числа, и a≠0, называется квадратным уравнением.
     public function solveQuadraticEquation(float $a, float $b, float $c, bool $strict = true): array
@@ -46,5 +47,11 @@ class Math
         }
 
         return $equationRootList;
+    }
+
+    public static function isLowThenZero(float $value): bool
+    {
+        $value = round($value, 2);
+        return $value <= 0.0;
     }
 }
