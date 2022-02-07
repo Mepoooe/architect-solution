@@ -49,8 +49,9 @@ class Math
         return $equationRootList;
     }
 
-    public static function isLowThenEpsilon(float $value): bool
+    public static function isLowThenZero(float $value): bool
     {
-        return $value < self::EPSILON;
+        $value = round($value, 2);
+        return $value <= 0.0;
     }
 }

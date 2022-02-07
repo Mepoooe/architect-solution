@@ -24,7 +24,7 @@ class ChangeVelocityCommand extends MacroCommand
     protected function afterExecute(Command $command): void
     {
         if ($command instanceof Rotate) {
-            if (Math::isLowThenEpsilon($this->newAngularVelocity)) {
+            if (Math::isLowThenZero($this->newAngularVelocity)) {
                 throw new CommandException('New angular velocity should be more than ' . Math::EPSILON . '.');
             }
 
