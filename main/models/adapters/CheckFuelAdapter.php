@@ -10,7 +10,6 @@ class CheckFuelAdapter implements Checkable
     const CHECK_FUEL_PROP_NAME = 'checkFuel';
 
     protected Fuel $fuel;
-    private bool $fuelExist;
 
 
     public function __construct(Fuel $fuel)
@@ -20,8 +19,7 @@ class CheckFuelAdapter implements Checkable
 
     public function check(): bool
     {
-        $this->fuelExist = $this->fuel->getFuelVolume() > 0;
-        return $this->fuelExist;
+        return $this->fuel->getFuelVolume() > 0;
     }
 
     public function setFuel(Fuel $fuel)
@@ -32,10 +30,5 @@ class CheckFuelAdapter implements Checkable
     public function getFuel(): Fuel
     {
         return $this->fuel;
-    }
-
-    public function isFuelExist(): bool
-    {
-        return $this->fuelExist;
     }
 }

@@ -1,7 +1,6 @@
 <?php
 namespace main\models;
 
-use main\models\adapters\CheckFuelAdapter;
 
 class UObject
 {

@@ -18,9 +18,7 @@ class CheckFuel implements Command
 
     public function execute(): void
     {
-        $this->checkableAdapter->check();
-
-        if ($this->checkableAdapter->isFuelExist() === false) {
+        if ($this->checkableAdapter->check() === false) {
             throw new CommandException('Fuel less than zero');
         }
     }

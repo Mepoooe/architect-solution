@@ -25,7 +25,7 @@ class CheckFuelTest extends TestCase
         $commandCheckFuel = new CheckFuel($tankCheckFuelAdapter);
         $commandCheckFuel->execute();
 
-        $this->assertTrue($tankCheckFuelAdapter->isFuelExist());
+        $this->assertTrue($tankCheckFuelAdapter->check());
     }
 
     public function testOnEmptyFuel()
@@ -46,10 +46,10 @@ class CheckFuelTest extends TestCase
             $this->assertSame(CommandException::CODE, $exception->getCode());
         }
         finally {
-            $this->assertFalse($tankCheckFuelAdapter->isFuelExist());
+            $this->assertFalse($tankCheckFuelAdapter->check());
         }
 
-        $this->assertFalse($tankCheckFuelAdapter->isFuelExist());
+        $this->assertFalse($tankCheckFuelAdapter->check());
 
         $tankCheckFuelAdapter->getFuel()->setFuelVolume(-5);
         try {
@@ -61,7 +61,7 @@ class CheckFuelTest extends TestCase
             $this->assertSame(CommandException::CODE, $exception->getCode());
         }
         finally {
-            $this->assertFalse($tankCheckFuelAdapter->isFuelExist());
+            $this->assertFalse($tankCheckFuelAdapter->check());
         }
     }
 
